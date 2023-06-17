@@ -2,8 +2,7 @@
 import { redirect } from "next/navigation";
 import connectDb from "./connectDb";
 import Todo from "./models/Todo"
-import { redirects } from "../../next.config";
-// console.log(Todo);
+import Link from "next/link";
 const Home = async () => {
 
   const allTodos = await Todo.find()
@@ -68,7 +67,10 @@ const Home = async () => {
                 <div className="flex gap-4 m-5 justify-start items-center">
                   <li>{e.title}</li>
                   <li>{e.todo}</li>
-                  <button className="bg-green-500 px-4 py-1">Update </button>
+                  <Link href={"/edit/" + e._id}>
+
+                    <button className="bg-green-500 px-4 py-1">Update </button>
+                  </Link>
                   <button className="bg-red-500 px-4 py-1">delete </button>
                 </div>
               </>
