@@ -26,6 +26,22 @@ const Home = async () => {
     redirect('/')
   }
 
+  // delete Todo
+  const deleteTodo = async (e) => {
+    "use server"
+
+
+    connectDb()
+
+    let id = JSON.parse(e.get("id")?.valueOf());
+
+    const deletedTodo = await Todo.findByIdAndDelete({ _id: id })
+    console.log(deletedTodo);
+
+
+    redirect('/')
+  }
+
 
   return (
     <main className="m-10 space-y-5">
@@ -71,7 +87,10 @@ const Home = async () => {
 
                     <button className="bg-green-500 px-4 py-1">Update </button>
                   </Link>
-                  <button className="bg-red-500 px-4 py-1">delete </button>
+                  <form action={deleteTodo}>
+                    <input type="hidden" value={JSON.stringify(e._id)} name="id" />
+                    <button className="bg-red-500 px-4 py-1">delete </button>
+                  </form>
                 </div>
               </>
             )
