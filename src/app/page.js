@@ -1,12 +1,15 @@
 
+import { redirect } from "next/navigation";
 import connectDb from "./connectDb";
 import Todo from "./models/Todo"
+import { redirects } from "../../next.config";
 // console.log(Todo);
 const Home = async () => {
 
+  const allTodos = await Todo.find()
 
   // create todo
-  const createTodo = async(e) => {
+  const createTodo = async (e) => {
     "use server"
 
     let title = e.get("title")?.valueOf()
@@ -14,14 +17,14 @@ const Home = async () => {
 
     try {
       connectDb()
-      const newTodo = new Todo({title,todo})
+      const newTodo = new Todo({ title, todo })
       await newTodo.save()
       console.log(newTodo);
 
     } catch (error) {
       console.error(error);
     }
-
+    redirect('/')
   }
 
 
@@ -55,6 +58,24 @@ const Home = async () => {
           Submit
         </button>
       </form>
+
+      <div>
+        <ul>
+
+          {allTodos.map((e) => {
+            return (
+              <>
+                <div className="flex gap-4 m-5 justify-start items-center">
+                  <li>{e.title}</li>
+                  <li>{e.todo}</li>
+                  <button className="bg-green-500 px-4 py-1">Update </button>
+                  <button className="bg-red-500 px-4 py-1">delete </button>
+                </div>
+              </>
+            )
+          })}
+        </ul>
+      </div>
     </main>
   )
 }
