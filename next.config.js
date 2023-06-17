@@ -2,3 +2,7 @@
 const nextConfig = {}
 
 module.exports = nextConfig
+
+module.exports = {
+    experimental: { appDir: true, serverComponentsExternalPackages: ["mongoose"], serverActions: true},
+}
